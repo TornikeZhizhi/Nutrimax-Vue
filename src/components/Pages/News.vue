@@ -10,10 +10,14 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6 new_col">
+        <div
+          class="col-md-6 new_col"
+          v-for="(data, index) in newsGetters"
+          :key="index"
+        >
           <div class="news_box">
             <div class="news_img_box">
-              <a href="">
+              <a href>
                 <img
                   src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
                 />
@@ -22,82 +26,11 @@
 
             <div class="news_info_box">
               <div class="news_info_text">
-                <h3>სათაური</h3>
-                <p>
-                  ყველაზე გემრიელი უქმეები იწყება! გემოვანი ბაზარი 30 ივნისიდან
-                  მთელი ზაფხულის განმავლობაში ფერმერების მიერ შექმნილ პროდუქტს
-                </p>
+                <h3>{{ data.title }}</h3>
+                <p>{{ data.text }}</p>
               </div>
-              <a href="">იხილეთ სღულად</a>
-            </div>
-          </div>
-        </div>
 
-        <div class="col-md-6 new_col">
-          <div class="news_box">
-            <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
-              </a>
-            </div>
-
-            <div class="news_info_box">
-              <div class="news_info_text">
-                <h3>სათაური</h3>
-                <p>
-                  ყველაზე გემრიელი უქმეები იწყება! გემოვანი ბაზარი 30 ივნისიდან
-                  მთელი ზაფხულის განმავლობაში ფერმერების მიერ შექმნილ პროდუქტს
-                </p>
-              </div>
-              <a href="">იხილეთ სღულად</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 new_col">
-          <div class="news_box">
-            <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
-              </a>
-            </div>
-
-            <div class="news_info_box">
-              <div class="news_info_text">
-                <h3>სათაური</h3>
-                <p>
-                  ყველაზე გემრიელი უქმეები იწყება! გემოვანი ბაზარი 30 ივნისიდან
-                  მთელი ზაფხულის განმავლობაში ფერმერების მიერ შექმნილ პროდუქტს
-                </p>
-              </div>
-              <a href="">იხილეთ სღულად</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 new_col">
-          <div class="news_box">
-            <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
-              </a>
-            </div>
-
-            <div class="news_info_box">
-              <div class="news_info_text">
-                <h3>სათაური</h3>
-                <p>
-                  ყველაზე გემრიელი უქმეები იწყება! გემოვანი ბაზარი 30 ივნისიდან
-                  მთელი ზაფხულის განმავლობაში ფერმერების მიერ შექმნილ პროდუქტს
-                </p>
-              </div>
-              <a href="">იხილეთ სღულად</a>
+              <a href>იხილეთ სღულად</a>
             </div>
           </div>
         </div>
@@ -107,7 +40,25 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  data: function() {
+    return {
+      newData: [
+        { title: "ახალი ამბები", text: "ყველაზე გემრიელი უქმეენი იწყება" },
+        { title: "ახალი ამბები2", text: "ყველაზე გემრიელი უქმეენი იწყება2" },
+        { title: "ახალი ამბები3", text: "ყველაზე გემრიელი უქმეენი იწყება3" },
+        { title: "ახალი ამბები4", text: "ყველაზე გემრიელი უქმეენი იწყება4" }
+      ]
+    };
+  },
+  computed: {
+    ...mapGetters(["newsGetters"])
+  },
+  mounted() {
+    this.$store.state.news.NewsData = this.newData;
+  }
+};
 </script>
 
 <style scoped>
