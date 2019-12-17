@@ -31,8 +31,8 @@
                 <input
                   type="checkbox"
                   value="bird"
-                  @key="filterHandler"
                   v-model="animalFilter"
+                  @input="filterHandler"
                 />
                 <span class="checkmark"></span>ფრინველი
               </label>
@@ -84,7 +84,7 @@
                 <div class="row">
                   <div
                     class="col-lg-3 col-6 product_content"
-                    v-for="(data, index) in animalLocalData"
+                    v-for="(data, index) in lists"
                     :key="index"
                   >
                     <div class="new_box">
@@ -116,6 +116,12 @@
                     </div>
                   </div>
                 </div>
+                <b-pagination
+                  @click.native="test"
+                  :total-rows="totalRows"
+                  v-model="currentPage"
+                  :per-page="perPage"
+                />
               </div>
             </div>
           </div>
@@ -124,7 +130,7 @@
         <!-- //main content -->
       </div>
     </div>
-    <appPagination></appPagination>
+    <!-- <appPagination></appPagination> -->
   </div>
 </template>
 
@@ -138,13 +144,16 @@ export default {
 
   data: function() {
     return {
-      animalLocalData: null,
-      animalFilter: []
+      animalLocalData: this.$store.state.animalData.AnimalData,
+      animalFilter: [],
+      currentPage: this.$route.query.currentpage,
+      perPage: 4
     };
   },
 
   methods: {
     filterHandler() {
+      // window.scrollTo(300, 300);
       this.$router.push({
         name: "products",
         query: {
@@ -167,13 +176,44 @@ export default {
           });
         }
       }, 110);
+    },
+    test() {
+      this.$router
+        .replace({
+          query: { currentpage: this.currentPage }
+        })
+        .catch(err => {});
     }
   },
   computed: {
-    ...mapGetters(["animalVuData"])
+    ...mapGetters(["animalVuData"]),
+    lists() {
+      const items = this.animalLocalData;
+      this.$router
+        .replace({
+          query: { currentpage: this.currentPage }
+        })
+        .catch(err => {});
+
+      return items.slice(
+        (this.currentPage - 1) * this.perPage,
+        this.currentPage * this.perPage
+      );
+    },
+    totalRows() {
+      return this.animalLocalData.length;
+    }
   },
   mounted() {
-    this.animalLocalData = this.animalVuData;
+    if (this.currentPage == undefined) {
+      this.currentPage = 1;
+    }
+
+    this.$router
+      .replace({
+        query: { currentpage: this.currentPage }
+      })
+      .catch(err => {});
   }
 };
 </script>
@@ -195,5 +235,31 @@ label {
 }
 .products_fluid .products_container .main_products_row {
   min-height: 125vh;
+}
+
+.page-item.active .page-link {
+  background-color: #f5c400;
+  border-color: #f5c400;
+}
+.page-item .page-link {
+  transition: all 0.4s;
+}
+.page-item .page-link:hover {
+  transform: translateY(-5px);
+  color: #6c6c6c;
+}
+
+.page-link:focus {
+  box-shadow: unset;
+}
+.pagination {
+  margin-top: 50px;
+  justify-content: center;
+}
+.page-link {
+  color: #6c6c6c;
+}
+.page-item.active .page-link:hover {
+  color: #fff;
 }
 </style>
