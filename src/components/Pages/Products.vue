@@ -18,52 +18,15 @@
         <div class="row main_products_row">
           <div class="col-md-2 main_products_menu_col">
             <div class="animals_tab_panel animals_tab_panel_full">
-              <label>
+              <label v-for="(data, index) in chekbox" :key="index">
                 <input
                   type="checkbox"
-                  value="pig"
-                  v-model="animalFilter"
-                  @input="filterHandler"
+                  :value="data.type"
+                  :checked="data.checked"
+                  @input="valueHandler"
                 />
-                <span class="checkmark"></span>ღორი
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="bird"
-                  v-model="animalFilter"
-                  @input="filterHandler"
-                />
-                <span class="checkmark"></span>ფრინველი
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  value="fish"
-                  v-model="animalFilter"
-                  @input="filterHandler"
-                />
-                <span class="checkmark"></span>თევზი
-              </label>
 
-              <label>
-                <input
-                  type="checkbox"
-                  value="rabbit"
-                  v-model="animalFilter"
-                  @input="filterHandler"
-                />
-                <span class="checkmark"></span>ბოცვერი
-              </label>
-
-              <label>
-                <input
-                  type="checkbox"
-                  value="other"
-                  v-model="animalFilter"
-                  @input="filterHandler"
-                />
-                <span class="checkmark"></span>სხვა
+                <span class="checkmark"></span>{{ data.type }}
               </label>
             </div>
           </div>
@@ -117,7 +80,7 @@
                   </div>
                 </div>
                 <b-pagination
-                  @click.native="test"
+                  @click.native="paginationHandler"
                   :total-rows="totalRows"
                   v-model="currentPage"
                   :per-page="perPage"
@@ -130,7 +93,6 @@
         <!-- //main content -->
       </div>
     </div>
-    <!-- <appPagination></appPagination> -->
   </div>
 </template>
 
@@ -144,40 +106,60 @@ export default {
 
   data: function() {
     return {
+      chekbox: [
+        { type: "pig", checked: false },
+        { type: "bird", checked: false },
+        { type: "fish", checked: false },
+        { type: "rabbit", checked: false },
+        { type: "other", checked: false }
+      ],
       animalLocalData: this.$store.state.animalData.AnimalData,
-      animalFilter: [],
       currentPage: this.$route.query.currentpage,
+      animalFilterquery: [],
+      filterData: [],
       perPage: 4
     };
   },
 
   methods: {
-    filterHandler() {
-      // window.scrollTo(300, 300);
-      this.$router.push({
-        name: "products",
-        query: {
-          type: this.animalFilter
+    valueHandler($event) {
+      this.chekbox.map((el, index) => {
+        if (el.type == event.target.value) {
+          el.checked = event.target.checked;
+          if (event.target.checked) {
+            this.filterData.push(event.target.value);
+          } else {
+            this.filterData = this.filterData.filter((hobby, el) => {
+              return hobby !== event.target.value;
+            });
+          }
         }
+        this.$router
+          .replace({
+            query: { type: this.filterData, currentpage: this.currentPage }
+          })
+          .catch(error => {});
       });
-      var _this = this;
-      setTimeout(function() {
-        if (_this.animalFilter.length == 0) {
-          _this.animalLocalData = _this.animalVuData;
-        } else {
-          _this.animalLocalData = [];
 
-          _this.animalFilter.map(function(el, index) {
-            for (let i = 0; i < _this.animalVuData.length; i++) {
-              if (el == _this.animalVuData[i].type) {
-                _this.animalLocalData.push(_this.animalVuData[i]);
-              }
-            }
-          });
-        }
-      }, 110);
+      // var _this = this;
+
+      // setTimeout(() => {
+      //   if (_this.animalLocalData.length == 0) {
+      //     _this.animalLocalData = _this.animalVuData;
+      //   } else {
+      //     _this.animalLocalData = [];
+      //     _this.animalLocalData.map(function(el, index) {
+      //       for (let i = 0; i < _this.animalVuData.length; i++) {
+      //         if (el == _this.animalVuData[i].type) {
+      //           _this.animalLocalData.push(_this.animalVuData[i]);
+      //         }
+      //       }
+      //     });
+      //   }
+      // }, 110);
     },
-    test() {
+    filterHandler() {},
+    paginationHandler() {
       this.$router
         .replace({
           query: { currentpage: this.currentPage }
@@ -189,11 +171,17 @@ export default {
     ...mapGetters(["animalVuData"]),
     lists() {
       const items = this.animalLocalData;
-      this.$router
-        .replace({
-          query: { currentpage: this.currentPage }
-        })
-        .catch(err => {});
+
+      setTimeout(() => {
+        this.$router
+          .replace({
+            query: {
+              currentpage: this.currentPage,
+              type: this.filterData
+            }
+          })
+          .catch(err => {});
+      }, 2);
 
       return items.slice(
         (this.currentPage - 1) * this.perPage,
@@ -205,13 +193,27 @@ export default {
     }
   },
   mounted() {
+    if (this.$route.query.type !== undefined) {
+      this.$route.query.type.map((el, index) => {
+        for (var i = 0; i < this.chekbox.length; i++) {
+          if (el == this.chekbox[i].type) {
+            this.chekbox[i].checked = true;
+            this.filterData.push(this.chekbox[i].type);
+          }
+        }
+      });
+    }
+
     if (this.currentPage == undefined) {
       this.currentPage = 1;
     }
 
     this.$router
       .replace({
-        query: { currentpage: this.currentPage }
+        query: {
+          currentpage: this.currentPage,
+          type: this.filterData
+        }
       })
       .catch(err => {});
   }

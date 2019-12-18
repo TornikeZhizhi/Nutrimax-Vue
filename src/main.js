@@ -16,9 +16,8 @@ const router = new VueRouter({
   mode: "history",
   routes,
   scrollBehavior(to, from, savedPosition) {
-    console.log(to);
     if (to.name == "products") {
-      return { x: 0, y: 220 };
+      return { x: 0, y: 270 };
     } else {
       return { x: 0, y: 0 };
     }
