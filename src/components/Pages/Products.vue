@@ -117,7 +117,8 @@ export default {
       currentPage: this.$route.query.currentpage,
       animalFilterquery: [],
       filterData: [],
-      perPage: 4
+      perPage: 4,
+      queryTips: []
     };
   },
 
@@ -193,7 +194,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.query.type !== undefined) {
+    if (Array.isArray(this.$route.query.type)) {
       this.$route.query.type.map((el, index) => {
         for (var i = 0; i < this.chekbox.length; i++) {
           if (el == this.chekbox[i].type) {
@@ -202,6 +203,13 @@ export default {
           }
         }
       });
+    } else {
+      this.filterData.push(this.$route.query.type);
+      for (var a = 0; a < this.chekbox.length; a++) {
+        if (this.$route.query.type == this.chekbox[a].type) {
+          this.chekbox[a].checked = true;
+        }
+      }
     }
 
     if (this.currentPage == undefined) {

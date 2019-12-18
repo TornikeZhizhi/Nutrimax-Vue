@@ -12,5 +12,3 @@ export const store = new Vuex.Store({
     animalData
   }
 });
-
-console.log(store);
