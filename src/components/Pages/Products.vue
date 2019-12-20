@@ -2,10 +2,7 @@
   <div>
     <div class="products_fluid">
       <div class="container products_container">
-        <div
-          class="row"
-          style="display:flex;justify-content:center;margin-top:100px;"
-        >
+        <div class="row" style="display:flex;justify-content:center;margin-top:100px;">
           <div class="col-12">
             <div class="products_tittle">
               <h2>პროდუქცია</h2>
@@ -26,7 +23,8 @@
                   @input="valueHandler"
                 />
 
-                <span class="checkmark"></span>{{ data.type }}
+                <span class="checkmark"></span>
+                {{ data.type }}
               </label>
             </div>
           </div>
@@ -141,23 +139,6 @@ export default {
           })
           .catch(error => {});
       });
-
-      // var _this = this;
-
-      // setTimeout(() => {
-      //   if (_this.animalLocalData.length == 0) {
-      //     _this.animalLocalData = _this.animalVuData;
-      //   } else {
-      //     _this.animalLocalData = [];
-      //     _this.animalLocalData.map(function(el, index) {
-      //       for (let i = 0; i < _this.animalVuData.length; i++) {
-      //         if (el == _this.animalVuData[i].type) {
-      //           _this.animalLocalData.push(_this.animalVuData[i]);
-      //         }
-      //       }
-      //     });
-      //   }
-      // }, 110);
     },
     filterHandler() {},
     paginationHandler() {
@@ -171,7 +152,20 @@ export default {
   computed: {
     ...mapGetters(["animalVuData"]),
     lists() {
-      const items = this.animalLocalData;
+      this.animalFilterquery = [];
+      this.animalVuData.map((el, index) => {
+        for (var i = 0; i < this.filterData.length; i++) {
+          if (el.type == this.filterData[i]) {
+            this.animalFilterquery.push(this.animalVuData[index]);
+          }
+        }
+      });
+      var items;
+      if (this.animalFilterquery.length == 0) {
+        items = this.animalVuData;
+      } else {
+        items = this.animalFilterquery;
+      }
 
       setTimeout(() => {
         this.$router
@@ -190,7 +184,11 @@ export default {
       );
     },
     totalRows() {
-      return this.animalLocalData.length;
+      if (this.animalFilterquery.length == 0) {
+        return this.animalVuData.length;
+      } else {
+        return this.animalFilterquery.length;
+      }
     }
   },
   mounted() {
