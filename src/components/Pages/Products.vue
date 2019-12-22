@@ -2,7 +2,10 @@
   <div>
     <div class="products_fluid">
       <div class="container products_container">
-        <div class="row" style="display:flex;justify-content:center;margin-top:100px;">
+        <div
+          class="row"
+          style="display:flex;justify-content:center;margin-top:100px;"
+        >
           <div class="col-12">
             <div class="products_tittle">
               <h2>პროდუქცია</h2>
@@ -47,6 +50,7 @@
                     class="col-lg-3 col-6 product_content"
                     v-for="(data, index) in lists"
                     :key="index"
+                    @click="productHandler(data.id)"
                   >
                     <div class="new_box">
                       <img src="../../assets/images/products_new.png" />
@@ -64,7 +68,7 @@
                       </div>
 
                       <h3>{{ data.title }}</h3>
-                      <a href="products_inside.html">
+                      <a>
                         <img class="img_ani" :src="data.img" />
                       </a>
 
@@ -107,8 +111,11 @@ export default {
       chekbox: [
         { type: "pig", checked: false },
         { type: "bird", checked: false },
+        { type: "cow", checked: false },
         { type: "fish", checked: false },
+        { type: "mckeri", checked: false },
         { type: "rabbit", checked: false },
+        { type: "sheep", checked: false },
         { type: "other", checked: false }
       ],
       animalLocalData: this.$store.state.animalData.AnimalData,
@@ -121,6 +128,14 @@ export default {
   },
 
   methods: {
+    productHandler(index) {
+      this.$router.push({
+        name: "products-in",
+        query: {
+          productId: this.animalLocalData[index].id
+        }
+      });
+    },
     valueHandler($event) {
       this.chekbox.map((el, index) => {
         if (el.type == event.target.value) {

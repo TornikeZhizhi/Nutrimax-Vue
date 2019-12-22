@@ -1609,6 +1609,12 @@ a:hover {
       color: #F5C400;
       font-family: 'Conv_gl-gordeziani-medium';
      }
+
+     .emptyerror {
+      font-size: 30px;
+      color: #F5C400;
+      font-family: 'Conv_gl-gordeziani-medium';
+     }
   .home_services_fluid .home_services_tittle_container .farmers_tittle {
     border: 1px solid transparent;
     transition: .4s;

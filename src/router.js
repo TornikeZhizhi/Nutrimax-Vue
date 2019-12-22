@@ -7,6 +7,7 @@ import Advices from "./components/Pages/Advices.vue";
 import Services from "./components/Pages/Services.vue";
 import Header from "./components/partials/Header.vue";
 import Footer from "./components/partials/Footer.vue";
+import Products_in from "./components/Pages/Products_in.vue";
 
 export const routes = [
   {
@@ -14,6 +15,15 @@ export const routes = [
     name: "home",
     components: {
       default: Home,
+      header: Header,
+      footer: Footer
+    }
+  },
+  {
+    path: "/products_in",
+    name: "products-in",
+    components: {
+      default: Products_in,
       header: Header,
       footer: Footer
     }
@@ -71,5 +81,6 @@ export const routes = [
       header: Header,
       footer: Footer
     }
-  }
+  },
+  { path: "*", component: Home }
 ];
