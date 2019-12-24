@@ -7,20 +7,24 @@ import { routes } from "./router.js";
 import { store } from "./store/store.js";
 import { mixin } from "./mixin.js";
 import BootstrapVue from "bootstrap-vue";
-
+import vueSmoothScroll from "vue2-smooth-scroll";
+Vue.use(vueSmoothScroll);
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 
 Vue.use(VueResource);
+
 const router = new VueRouter({
   mode: "history",
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (to.name == "products") {
-      return { x: 0, y: 0 };
-    } else {
-      return { x: 0, y: 0 };
-    }
+    console.log(to.hash, from.hash);
+
+    // if (to.hash == "#top") {
+    //   return { x: 0, y: 230 };
+    // } else {
+    //   return savedPosition;
+    // }
   }
 });
 new Vue({

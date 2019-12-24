@@ -98,7 +98,8 @@ export default {
         path: "/products",
         query: {
           type: arg
-        }
+        },
+        hash:"top"
       });
 
       // console.log(this.$store.state.animalData.animalVuFilter);

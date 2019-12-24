@@ -15,7 +15,7 @@
 
         <!-- //main content -->
 
-        <div class="row main_products_row">
+        <div class="row main_products_row" id="product_row">
           <div class="col-md-2 main_products_menu_col">
             <div class="animals_tab_panel animals_tab_panel_full">
               <label v-for="(data, index) in chekbox" :key="index">
@@ -81,6 +81,13 @@
                     </div>
                   </div>
                 </div>
+
+                <a
+                  href="#product_row"
+                  id="smoothlink"
+                  v-smooth-scroll="{ offset: 5 }"
+                  style="display:none"
+                ></a>
                 <b-pagination
                   @click.native="paginationHandler"
                   :total-rows="totalRows"
@@ -99,6 +106,7 @@
 </template>
 
 <script>
+import smoothscroll from "smoothscroll-polyfill";
 import { mapGetters } from "vuex";
 import pagination from "./Pagination.vue";
 export default {
@@ -157,6 +165,7 @@ export default {
     },
     filterHandler() {},
     paginationHandler() {
+      // smoothscroll.polyfill();
       this.$router
         .replace({
           query: { currentpage: this.currentPage }
@@ -207,6 +216,15 @@ export default {
     }
   },
   mounted() {
+    var pag = document.getElementsByClassName("page-item");
+    console.log(pag.length);
+
+    for (var n = 0; n < pag.length; n++) {
+      pag[n].addEventListener("click", function() {
+        document.getElementById("smoothlink").click();
+      });
+    }
+
     if (Array.isArray(this.$route.query.type)) {
       this.$route.query.type.map((el, index) => {
         for (var i = 0; i < this.chekbox.length; i++) {
@@ -258,6 +276,12 @@ label {
 }
 .products_fluid .products_container .main_products_row {
   min-height: 125vh;
+}
+
+.page-item.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .page-item.active .page-link {

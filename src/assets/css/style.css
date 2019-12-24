@@ -919,8 +919,7 @@ a:hover {
     background-color: #fff;
     transition: .4s;
     padding: 15px 60px; }
-    .farmers_container .advice_container .advice_tex_box .advice_info_box {
-      display: none; }
+
     .farmers_container .advice_container .advice_tex_box h3 {
       color: #493728;
       font-size: 28px;
