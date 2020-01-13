@@ -1,11 +1,10 @@
 <template>
   <div class="home_news_fluid">
-    <div
-      class="row justify-content-center"
-      style="display:flex;justify-content:center"
-    >
+    <div class="row justify-content-center" style="display:flex;justify-content:center">
       <div class="home_news_tittle text-center">
-        <h2><a href="news.html"> სიახლეები </a></h2>
+        <h2>
+          <a href="news.html">სიახლეებიიგიი</a>
+        </h2>
       </div>
     </div>
     <div class="home_news_container">
@@ -22,10 +21,8 @@
         >
           <div class="news_box">
             <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
+              <a href>
+                <img src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg" />
               </a>
             </div>
 
@@ -42,10 +39,8 @@
           </div>
           <div class="news_box">
             <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
+              <a href>
+                <img src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg" />
               </a>
             </div>
 
@@ -62,10 +57,8 @@
           </div>
           <div class="news_box">
             <div class="news_img_box">
-              <a href="">
-                <img
-                  src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg"
-                />
+              <a href>
+                <img src="../../assets/images/photo-1523741543316-beb7fc7023d8.jpg" />
               </a>
             </div>
 

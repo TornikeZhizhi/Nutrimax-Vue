@@ -45,7 +45,10 @@
 
             <div class="row animals_row pig_row">
               <div class="row_wrapper col-12">
-                <div class="row">
+                <div class="row" v-if="empty">
+                  <h2>empty</h2>
+                </div>
+                <div class="row" v-if="!empty">
                   <div
                     class="col-lg-3 col-6 product_content"
                     v-for="(data, index) in lists"
@@ -116,6 +119,7 @@ export default {
 
   data: function() {
     return {
+      empty: false,
       chekbox: [
         { type: "pig", checked: false },
         { type: "bird", checked: false },
@@ -184,11 +188,25 @@ export default {
           }
         }
       });
+
+      console.log(this.animalFilterquery.length, this.$route.query.type);
+
+      // if (this.$route.query.type !== undefined) {
+      //   if (
+      //     this.animalFilterquery.length == 0 &&
+      //     this.$route.query.type[0] == undefined &&
+      //     this.$route.query.type.length > 1
+      //   ) {
+      //   }
+      // }
+
       var items;
       if (this.animalFilterquery.length == 0) {
         items = this.animalVuData;
+        this.empty = false;
       } else {
         items = this.animalFilterquery;
+        this.empty = false;
       }
 
       setTimeout(() => {
@@ -281,7 +299,7 @@ label {
 .page-item.disabled {
   pointer-events: none;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.3;
 }
 
 .page-item.active .page-link {
